@@ -1,11 +1,12 @@
 Package: easyr
 Type: Package
-Title: Make Life A Little Easier
+Title: Make life a little easier
 Version: 0.0.0.9000
 Author: person("Cole", "Tanigawa-Lau", "coletl@nyu.edu", 
                role = c("aut", "cre")),
 Maintainer: Cole Tanigawa-Lau <coletl@nyu.edu>
-Description: Sundry functions collected from projects over the years. 
+Description: Sundry functions collected from projects and gists over the years. 
              This package is mostly just a convenient place to hold and access them.
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 6.1.0
