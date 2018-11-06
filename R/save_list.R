@@ -18,7 +18,8 @@
 #'
 #' list.files(tmp_dir)
 #' unlink(tmp_dir, recursive = TRUE)
-
+#'
+#' @export
 
 save_list <-
   function(x, dir, ext = c(".rds", ".csv"), names = NULL,

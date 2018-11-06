@@ -33,6 +33,7 @@ save_list(ldf, dir = tmp_dir, ext = ".csv")
 
 list.files(tmp_dir)
 unlink(tmp_dir, recursive = TRUE)
+
 }
 \seealso{
 \code{\link{saveRDS}} and \code{\link[data.table]{fwrite}}.
