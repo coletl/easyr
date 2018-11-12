@@ -2,7 +2,7 @@
 #' @aliases notin
 #' @title Binary operator for non-inclusion
 #'
-#' @description This is just a convenience function for \code{! x %in% y}.
+#' @description This is just a convenience function for \code{! x \%in\% y}.
 #'
 #' @details See the note on matching \code{NA} in \code{\link[base]{match}}.
 #'

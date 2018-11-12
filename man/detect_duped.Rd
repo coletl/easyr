@@ -17,6 +17,15 @@ A logical vector corresponding to values that are duplicates \emph{or are duplic
 \description{
 Test for duplicates in one or a combination of vectors.
 }
+\details{
+This function \strong{\emph{should not}} be used in places of \code{duplicated()} and \strong{\emph{does not return duplicates}}.
+Instead, \code{detect_duped()} executes the common pattern
+
+\code{vector \%in\% vector[duplicated(vector)]}.
+
+Providing multiple vector arguments to \code{...} concatenates the vectors element-wise
+before testing for duplicates in the new, collapsed vector.
+}
 \section{Profiling}{
 
 I think the bottleneck here is the call to \code{interaction()}.

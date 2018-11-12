@@ -8,7 +8,7 @@
 x \%notin\% y
 }
 \description{
-Binary operator for non-inclusion
+This is just a convenience function for \code{! x \%in\% y}.
 }
 \details{
 See the note on matching \code{NA} in \code{\link[base]{match}}.
