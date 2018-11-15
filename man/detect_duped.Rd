@@ -36,7 +36,7 @@ rather than just compare the runtimes for different functions.
 }
 
 \examples{
-state <- c("CA", "IL", "FL", "CA")
+state <- c("CA", "CA", "FL", "CA")
 cd    <- c(22, 11, 22, 22)
 
 data.frame(state, cd,
