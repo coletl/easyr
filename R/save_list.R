@@ -3,8 +3,8 @@
 #'
 #' @param x a list.
 #' @param dir a directory in which to save the list elements.
-#' @param ext a file extension.
-#' @param names a vector of file names.
+#' @param ext a single extension for all files.
+#' @param names a vector of file names without extensions.
 #' @param cores number of cores to use in \code{\link{mcparallel}}. The default (1) runs in series.
 #' @param ... further arguments to pass to \code{\link{saveRDS}} or \code{\link[data.table]{fwrite}}.
 #' @seealso \code{\link{saveRDS}} and \code{\link[data.table]{fwrite}}.

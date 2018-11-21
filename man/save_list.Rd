@@ -12,9 +12,9 @@ save_list(x, dir, ext = c(".rds", ".csv"), names = NULL, cores = 1,
 
 \item{dir}{a directory in which to save the list elements.}
 
-\item{ext}{a file extension.}
+\item{ext}{a single extension for all files.}
 
-\item{names}{a vector of file names.}
+\item{names}{a vector of file names without extensions.}
 
 \item{cores}{number of cores to use in \code{\link{mcparallel}}. The default (1) runs in series.}
 
