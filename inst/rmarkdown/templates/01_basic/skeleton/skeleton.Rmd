@@ -4,6 +4,7 @@ title: "TITLE"
 author: 
   - "Cole Tanigawa-Lau"
 date: "`r format(Sys.time(), '%b %d, %Y')`"
+
 # abstract: | 
 # keywords: |
 # bibliography: references.bib
@@ -30,10 +31,14 @@ text-align: justify}
 knitr::opts_chunk$set(echo = TRUE, fig.width = 10, fig.height = 10)
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 ```
-
-Working directory: 
-
-"`r getwd()`"
+```{r about, echo=FALSE}
+cat(
+  paste("Updated:", 
+        format(Sys.time(), "%b %d, %Y at %H:%M:%S")),
+  paste("Working directory:", getwd()),
+  sep = "\n\n"
+)
+```
 
 Reads:
 
@@ -45,6 +50,6 @@ Writes:
 
 # Setup
 
-```{r packages}
+```{r}
 
 ```
