@@ -50,6 +50,7 @@ Writes:
 
 # Setup
 
-```{r}
+```{r packages, warning=FALSE, message=FALSE}
+rm(list = ls())
 
 ```
