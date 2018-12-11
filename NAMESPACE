@@ -2,6 +2,7 @@
 
 export("%notin%")
 export(detect_duped)
+export(detect_na_intro)
 export(detect_outliers)
 export(na_zero)
 export(null_na)
