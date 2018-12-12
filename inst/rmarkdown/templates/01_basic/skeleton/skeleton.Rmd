@@ -9,28 +9,23 @@ date: "`r format(Sys.time(), '%b %d, %Y')`"
 # keywords: |
 # bibliography: references.bib
 # nocite: | 
+
 output: 
-  html_document:
+  html_notebook:
     toc: true
     toc_depth: 3
     toc_float: true
   theme: "flatly"
+  
 editor_options:
   chunk_output_type: console
 ---
-
-<!-- Justify text -->
-<style>
-body {
-text-align: justify}
-</style>
-
-<br>
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, fig.width = 10, fig.height = 10)
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 ```
+
 ```{r about, echo=FALSE}
 cat(
   paste("Updated:", 
