@@ -30,6 +30,9 @@
 order_substr <-
   function(x, split = "\\s*,\\s*|\\s*/\\s*|\\s*-\\s*|\\s+",
            perl = TRUE, collapse = " ", reverse = FALSE) {
+    # Locate NA values to add back in later
+    na_ind <- which(is.na(x))
+
     # Split each element into its own character vector at user-defined split patterns
     tmp <- strsplit(x, split = split, perl = perl)
     # Sort the substrings alphabetically and collapse.
@@ -41,6 +44,9 @@ order_substr <-
     )
     # Trim leading and trailing whitespace
     tmp3 <- gsub(tmp2, patt = "^\\s|\\s$", rep = "")
+
+    # Add NA values back in
+    tmp3[na_ind] <- NA_character_
 
     return(tmp3)
   }
