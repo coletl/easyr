@@ -4,16 +4,21 @@
 \alias{comp_cols}
 \title{Compare similarly named columns}
 \usage{
-comp_cols(x, id_cols = NULL, pattern = "^i\\\\.", col_list = NULL)
+comp_cols(x, id_cols = NULL, pattern = "^i\\\\.", col_list = NULL,
+  mismatch_only = FALSE, match_only = FALSE)
 }
 \arguments{
 \item{x}{a data.frame.}
 
 \item{id_cols}{any ID columns to retain in each data.frame output.}
 
-\item{pattern}{a regular expression pattern to match the distinguishing prefix/suffix}
+\item{pattern}{a regular expression pattern to match the distinguishing prefix/suffix.}
 
-\item{col_list}{a list of grouped column names, which takes precedence over \code{pattern}.}
+\item{col_list}{a list of \code{character(2)} column-name pairs, Non-\code{NULL} values here take precedence over \code{pattern}.}
+
+\item{mismatch_only}{return only rows with different values in column pairs.}
+
+\item{match_only}{return only rows with the same values in column pairs.}
 }
 \value{
 A list of data.frame objects.
@@ -25,7 +30,11 @@ and the default corresponds to default-data.table joining (e.g., \code{i.count},
 You can provide a list of column names for extraction instead.
 }
 \examples{
-x <-  c("5", "12", "zero", NA, "0")
-check <- detect_na_intro(x, as.numeric)
-data.frame(x, check)
+x <- data.frame(char = LETTERS[1:10],
+                i.char = sample(LETTERS[1:10]),
+                num = 1:10,
+                i.num = sample(1:10)
+                )
+comp_cols(x)
+
 }
