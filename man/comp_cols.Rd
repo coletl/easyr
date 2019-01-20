@@ -5,7 +5,7 @@
 \title{Compare similarly named columns}
 \usage{
 comp_cols(x, id_cols = NULL, pattern = "^i\\\\.", col_list = NULL,
-  mismatch_only = FALSE, match_only = FALSE)
+  mismatch_only = FALSE, match_only = FALSE, rm_na = FALSE)
 }
 \arguments{
 \item{x}{a data.frame.}
@@ -19,6 +19,8 @@ comp_cols(x, id_cols = NULL, pattern = "^i\\\\.", col_list = NULL,
 \item{mismatch_only}{return only rows with different values in column pairs.}
 
 \item{match_only}{return only rows with the same values in column pairs.}
+
+\item{rm_na}{remove rows with \code{NA} in each set of comparison columns.}
 }
 \value{
 A list of data.frame objects.

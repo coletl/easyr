@@ -10,6 +10,7 @@
 #' @param col_list a list of \code{character(2)} column-name pairs, Non-\code{NULL} values here take precedence over \code{pattern}.
 #' @param mismatch_only return only rows with different values in column pairs.
 #' @param match_only return only rows with the same values in column pairs.
+#' @param rm_na remove rows with \code{NA} in each set of comparison columns.
 #'
 #' @return A list of data.frame objects.
 #'
@@ -26,7 +27,8 @@
 comp_cols <-
   function(x, id_cols = NULL, pattern = "^i\\.",
            col_list = NULL,
-           mismatch_only = FALSE, match_only = FALSE) {
+           mismatch_only = FALSE, match_only = FALSE,
+           rm_na = FALSE) {
 
     stopifnot(mismatch_only + match_only < 2)
 
@@ -40,6 +42,16 @@ comp_cols <-
     out <-
       lapply(col_list,
              function(cols) dplyr::select(x, c(id_cols, cols)))
+
+    if(rm_na) {
+      # Remove NA rows
+      out <-
+        Map(function(df, cols)
+          df[
+            is.na(df[[ cols[1] ]]) + is.na(df[[ cols[2] ]]) < 2,
+            ],
+          df = out, cols = col_list)
+    }
 
     if(mismatch_only) {
       # Remove matches
