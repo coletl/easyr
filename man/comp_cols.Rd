@@ -5,7 +5,7 @@
 \title{Compare similarly named columns}
 \usage{
 comp_cols(x, id_cols = NULL, pattern = "^i\\\\.", col_list = NULL,
-  mismatch_only = FALSE, match_only = FALSE, rm_na = FALSE)
+  restrict = FALSE, rm_na = FALSE)
 }
 \arguments{
 \item{x}{a data.frame.}
@@ -16,11 +16,9 @@ comp_cols(x, id_cols = NULL, pattern = "^i\\\\.", col_list = NULL,
 
 \item{col_list}{a list of \code{character(2)} column-name pairs, Non-\code{NULL} values here take precedence over \code{pattern}.}
 
-\item{mismatch_only}{return only rows with different values in column pairs.}
+\item{restrict}{one of \code{"match"}, \code{"mismatch"}, or \code{FALSE}, specifying whether to restrict the output to matches only, mismatches only, or not at all (the default).}
 
-\item{match_only}{return only rows with the same values in column pairs.}
-
-\item{rm_na}{remove rows with \code{NA} in each set of comparison columns.}
+\item{rm_allna}{logical indicating whether, in each set of comparison columns, all-\code{NA} rows should be removed.}
 }
 \value{
 A list of data.frame objects.
@@ -32,11 +30,23 @@ and the default corresponds to default-data.table joining (e.g., \code{i.count},
 You can provide a list of column names for extraction instead.
 }
 \examples{
+set.seed(575)
+
 x <- data.frame(char = LETTERS[1:10],
                 i.char = sample(LETTERS[1:10]),
                 num = 1:10,
                 i.num = sample(1:10)
                 )
+
 comp_cols(x)
+comp_cols(x, restrict = "mismatch")
+
+x[2, 1] <- NA
+x[2, 3] <- NA
+x[3, 1:2] <- NA
+x[5, 3:4] <- NA
+
+comp_cols(x)
+comp_cols(x, rm_na = TRUE)
 
 }

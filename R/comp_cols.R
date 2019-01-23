@@ -8,29 +8,38 @@
 #' @param id_cols any ID columns to retain in each data.frame output.
 #' @param pattern a regular expression pattern to match the distinguishing prefix/suffix.
 #' @param col_list a list of \code{character(2)} column-name pairs, Non-\code{NULL} values here take precedence over \code{pattern}.
-#' @param mismatch_only return only rows with different values in column pairs.
-#' @param match_only return only rows with the same values in column pairs.
-#' @param rm_na remove rows with \code{NA} in each set of comparison columns.
+#' @param restrict one of \code{"match"}, \code{"mismatch"}, or \code{FALSE}, specifying whether to restrict the output to matches only, mismatches only, or not at all (the default).
+#' @param rm_allna logical indicating whether, in each set of comparison columns, all-\code{NA} rows should be removed.
 #'
 #' @return A list of data.frame objects.
 #'
 #' @examples
+#' set.seed(575)
+#'
 #' x <- data.frame(char = LETTERS[1:10],
 #'                 i.char = sample(LETTERS[1:10]),
 #'                 num = 1:10,
 #'                 i.num = sample(1:10)
 #'                 )
+#'
 #' comp_cols(x)
+#' comp_cols(x, restrict = "mismatch")
+#'
+#' x[2, 1] <- NA
+#' x[2, 3] <- NA
+#' x[3, 1:2] <- NA
+#' x[5, 3:4] <- NA
+#'
+#' comp_cols(x)
+#' comp_cols(x, rm_na = TRUE)
 #'
 #' @export
 
 comp_cols <-
   function(x, id_cols = NULL, pattern = "^i\\.",
            col_list = NULL,
-           mismatch_only = FALSE, match_only = FALSE,
+           restrict = FALSE,
            rm_na = FALSE) {
-
-    stopifnot(mismatch_only + match_only < 2)
 
     if(is.null(col_list)) {
       icol <- grep(pattern, names(x), value = TRUE)
@@ -48,30 +57,33 @@ comp_cols <-
       out <-
         Map(function(df, cols)
           df[
-            is.na(df[[ cols[1] ]]) + is.na(df[[ cols[2] ]]) < 2,
+            is.na(df[[ cols[1] ]]) + is.na(df[[ cols[2] ]]) < ncol(df),
             ],
           df = out, cols = col_list)
     }
 
-    if(mismatch_only) {
-      # Remove matches
-      out <-
-        Map(function(df, cols)
-          df[
-            df[[ cols[1] ]] != df[[ cols[2] ]],
-            ],
-          df = out, cols = col_list)
-    }
 
-    if(match_only) {
-      # Remove matches
-      out <-
-        Map(function(df, cols)
-          df[
-            df[[ cols[1] ]] == df[[ cols[2] ]],
-            ],
-          df = out, cols = col_list)
-    }
+    switch(restrict,
+
+           mismatch = {
+             out <-
+               Map(function(df, cols)
+                 df[
+                   df[[ cols[1] ]] != df[[ cols[2] ]],
+                   ],
+                 df = out, cols = col_list)
+           },
+
+           match = {
+             out <-
+               Map(function(df, cols)
+                 df[
+                   df[[ cols[1] ]] == df[[ cols[2] ]],
+                   ],
+                 df = out, cols = col_list)
+           }
+    )
 
     return(out)
   }
+
