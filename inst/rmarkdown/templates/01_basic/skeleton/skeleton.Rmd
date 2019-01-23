@@ -10,12 +10,20 @@ date: "`r format(Sys.time(), '%b %d, %Y')`"
 # bibliography: references.bib
 # nocite: | 
 
-output: 
-  html_notebook:
-    toc: true
+output:
+  html_document:
+    df_print: paged
+    toc: yes
     toc_depth: 3
-    toc_float: true
-  theme: "flatly"
+    toc_float: yes
+  html_notebook:
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
+  theme: flatly
   
 editor_options:
   chunk_output_type: console
