@@ -4,12 +4,14 @@
 \alias{detect_duped}
 \title{Test for duplicates}
 \usage{
-detect_duped(..., sep = "-^-")
+detect_duped(..., sep = "-^-", na_dupe = TRUE)
 }
 \arguments{
 \item{...}{vectors to concatenate.}
 
 \item{sep}{a string used to when concatenating the vectors. See \code{\link[base]{interaction}}.}
+
+\item{na_dupe}{logical indicating whether NAs should count as valid duplicates. The defualt, \code{TRUE}, corresponds to R's default behavior.}
 }
 \value{
 A logical vector corresponding to values that are duplicates \emph{or are duplicated}.

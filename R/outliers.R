@@ -25,13 +25,20 @@
 
 #' @rdname outliers
 #' @export
+
 detect_outliers <- function(x, probs, na.rm = FALSE, incbounds = TRUE) {
   if(length(probs) > 2)
     stop("probs must be a numeric vector of length two (or a list of such vectors if called from rm_outliers())")
 
+  na_ind <- which(is.na(x))
+
   qntl <- quantile(x, probs, na.rm)
 
-  ! data.table::inrange(x, min(qntl), max(qntl), incbounds)
+  out <- ! data.table::inrange(x, min(qntl), max(qntl), incbounds)
+
+  out[na_ind] <- NA
+
+  return(out)
 }
 
 #' @rdname outliers

@@ -21,6 +21,7 @@
 #'
 #' @param ... vectors to concatenate.
 #' @param sep a string used to when concatenating the vectors. See \code{\link[base]{interaction}}.
+#' @param na_dupe logical indicating whether NAs should count as valid duplicates. The defualt, \code{TRUE}, corresponds to R's default behavior.
 #'
 #' @return A logical vector corresponding to values that are duplicates \emph{or are duplicated}.
 #'
@@ -37,10 +38,7 @@
 
 
 detect_duped <-
-  function(..., sep = "-^-") {
-
-    na_ind <- which(is.na(x))
-
+  function(..., sep = "-^-", na_dupe = TRUE) {
     if(length(list(...)) > 1) combs <- paste(..., sep = sep)
     else combs <- as.vector(...)
 
@@ -54,7 +52,10 @@ detect_duped <-
       )
     )
 
-    out[na_ind] <- NA
+    if(!na_dupe) {
+      na_ind <- which(is.na(x))
+      out[na_ind] <- NA
+    }
 
     return(out)
   }
