@@ -1,7 +1,7 @@
 Package: easyr
 Type: Package
 Title: Make life a little easier
-Version: 0.0.1
+Version: 0.0.2
 Author: person("Cole", "Tanigawa-Lau", "coletl@nyu.edu",
     role = c("aut", "cre")),
 Maintainer: Cole Tanigawa-Lau <coletl@nyu.edu>
