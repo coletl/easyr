@@ -39,6 +39,8 @@
 detect_duped <-
   function(..., sep = "-^-") {
 
+    na_ind <- which(is.na(x))
+
     if(length(list(...)) > 1) combs <- paste(..., sep = sep)
     else combs <- as.vector(...)
 
@@ -51,6 +53,8 @@ detect_duped <-
               sum(out), length(dups)
       )
     )
+
+    out[na_ind] <- NA
 
     return(out)
   }
