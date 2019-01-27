@@ -10,7 +10,7 @@ comp_cols(x, id_cols = NULL, pattern = "^i\\\\.", col_list = NULL,
 \arguments{
 \item{x}{a data.frame.}
 
-\item{id_cols}{any ID columns to retain in each data.frame output.}
+\item{id_cols}{character vector of any ID columns to retain in each data.frame output.}
 
 \item{pattern}{a regular expression pattern to match the distinguishing prefix/suffix.}
 
@@ -32,21 +32,22 @@ You can provide a list of column names for extraction instead.
 \examples{
 set.seed(575)
 
-x <- data.frame(char = LETTERS[1:10],
+x <- data.frame(id = paste0("row_", 1:10),
+                char = LETTERS[1:10],
                 i.char = sample(LETTERS[1:10]),
                 num = 1:10,
                 i.num = sample(1:10)
                 )
 
 comp_cols(x)
-comp_cols(x, restrict = "mismatch")
+comp_cols(x, id_cols = "id", restrict = "mismatch")
 
-x[2, 1] <- NA
-x[2, 3] <- NA
-x[3, 1:2] <- NA
-x[5, 3:4] <- NA
+x[2, "char"] <- NA
+x[2, "num"] <- NA
+x[3, c("char", "i.char")] <- NA
+x[5, c("num", "i.num")] <- NA
 
 comp_cols(x)
-comp_cols(x, rm_na = TRUE)
+comp_cols(x, id_cols = "id", rm_na = TRUE)
 
 }
