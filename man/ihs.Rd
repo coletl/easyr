@@ -27,4 +27,5 @@ plot(density(x))
 plot(density(ihs(x)))
 lines(density(log1p(x)), col = "blue")
 lines(density(log(x)), col = "red")
+
 }

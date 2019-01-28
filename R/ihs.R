@@ -16,6 +16,8 @@
 #' plot(density(ihs(x)))
 #' lines(density(log1p(x)), col = "blue")
 #' lines(density(log(x)), col = "red")
+#'
+#' @export
 
 ihs <- function(x) {
   y <- log(x + sqrt(x^2 + 1))
