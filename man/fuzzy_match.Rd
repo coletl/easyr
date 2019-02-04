@@ -42,15 +42,10 @@ DTB <- data.table(block_b1 = sample(LETTERS[1:4], 20, TRUE),
                   block_b2 = sample(LETTERS[1:4], 20, TRUE),
                   fruit   = sample(stringr::fruit[1:12], 20, TRUE))
 
-
-a      <-  DTA
-b      <-  DTB
-acol   <-  "fruit"
-bcol   <-  "fruit"
 blocks <-  c(block_a1 = "block_b1", block_a2 = "block_b2")
 
-fuzzy_match(a, b, acol, bcol)
-fuzzy_match(a, b, acol, bcol, blocks = blocks)
+fuzzy_match(DTA, DTB, "fruit", "fruit")
+fuzzy_match(DTA, DTB, "fruit", "fruit", blocks = blocks)
 }
 \seealso{
 \link[stringdist]{stringdistmatrix}

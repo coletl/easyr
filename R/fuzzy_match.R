@@ -30,18 +30,14 @@
 #'                   block_b2 = sample(LETTERS[1:4], 20, TRUE),
 #'                   fruit   = sample(stringr::fruit[1:12], 20, TRUE))
 #'
-#'
-#' a      <-  DTA
-#' b      <-  DTB
-#' acol   <-  "fruit"
-#' bcol   <-  "fruit"
 #' blocks <-  c(block_a1 = "block_b1", block_a2 = "block_b2")
 #'
-#' fuzzy_match(a, b, acol, bcol)
-#' fuzzy_match(a, b, acol, bcol, blocks = blocks)
+#' fuzzy_match(DTA, DTB, "fruit", "fruit")
+#' fuzzy_match(DTA, DTB, "fruit", "fruit", blocks = blocks)
 
 
 #' @export
+
 fuzzy_match <-
   function(a, b, acol, bcol, blocks = NULL, method = "jw", ...) {
 
@@ -53,8 +49,8 @@ fuzzy_match <-
       # in both data sets
       if(is.null(names(blocks))) names(blocks) <- blocks
 
-      b[ , names(blocks) := mget(blocks)]
-
+      b_blocks <- b[ , ..blocks]
+      b[ , names(blocks) := b_blocks]
 
       setkeyv(a, names(blocks))
       setkeyv(b, names(blocks))
@@ -67,7 +63,7 @@ fuzzy_match <-
 
                  stringdist::stringdistmatrix(get(acol),
                                               b[.BY, get(bcol)],
-                                              useNames = TRUE, method = method...)
+                                              useNames = TRUE, method = method, ...)
                )
            ),
            by = names(blocks)
@@ -120,3 +116,4 @@ fuzzy_match <-
     return(sdm)
 
   }
+
