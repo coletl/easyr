@@ -58,7 +58,7 @@ fuzzy_match <-
       # Blocked distance computations
       sdm <-
         a[ ,
-           .(sdmats =
+           list(sdmats =
                list(
 
                  stringdist::stringdistmatrix(get(acol),
