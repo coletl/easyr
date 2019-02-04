@@ -51,7 +51,7 @@ fuzzy_match <-
 
       # If no names on blocks object, assume the blocking-column names are the same
       # in both data sets
-      if(!is.null(names(blocks))) names(blocks) <- blocks
+      if(is.null(names(blocks))) names(blocks) <- blocks
 
       b[ , names(blocks) := mget(blocks)]
 
