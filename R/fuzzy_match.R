@@ -94,7 +94,8 @@ fuzzy_match <-
            ]
 
 
-      sdm <- tidyr::unnest(sdm, best_match)
+      sdm <- tidyr::unnest(as.data.frame(sdm), best_match)
+      setDT(sdm)
 
     } else {
       # Unblocked distance computations
