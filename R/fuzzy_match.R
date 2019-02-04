@@ -49,7 +49,7 @@ fuzzy_match <-
       # in both data sets
       if(is.null(names(blocks))) names(blocks) <- blocks
 
-      b_blocks <- b[ , ..blocks]
+      b_blocks <- b[ , blocks, with = FALSE]
       b[ , names(blocks) := b_blocks]
 
       setkeyv(a, names(blocks))
