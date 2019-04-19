@@ -70,7 +70,7 @@ fuzzy_match <-
            ]
 
       # Clean up: remove new columns from b
-      b[ , names(blocks) := NULL]
+      b[ , setdiff(names(blocks), blocks) := NULL]
 
 
       # Find the best matches in b for each block-acol combination
