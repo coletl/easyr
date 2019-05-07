@@ -1,14 +1,8 @@
 ---
 title: "TITLE"
-# subtitle: ""
 author: 
   - "Cole Tanigawa-Lau"
-date: "`r format(Sys.time(), '%b %d, %Y')`"
-
-# abstract: | 
-# keywords: |
-# bibliography: references.bib
-# nocite: | 
+date: ""
 
 output:
   html_document:
@@ -24,7 +18,6 @@ output:
     toc: yes
     toc_depth: '3'
   theme: flatly
-  
 editor_options:
   chunk_output_type: console
 ---
