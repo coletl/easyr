@@ -1,0 +1,17 @@
+---
+title: "Problem Set"
+author: "Cole Tanigawa-Lau"
+date: ""
+output:
+  pdf_document:
+    toc: yes
+    toc_depth: 3
+  theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(include = FALSE)
+```
+
+
+
