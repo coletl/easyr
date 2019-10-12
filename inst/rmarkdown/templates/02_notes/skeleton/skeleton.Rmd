@@ -3,9 +3,12 @@ title: ""
 author: "Cole Tanigawa-Lau"
 date: ""
 output:
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
   html_notebook:
     toc: yes
-    toc_depth: 3
+    toc_depth: 2
     toc_float: yes
   theme: flatly
 ---

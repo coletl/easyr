@@ -4,14 +4,15 @@ author: "Cole Tanigawa-Lau"
 date: ""
 output:
   pdf_document:
-    toc: yes
+    toc: no
     toc_depth: 3
   theme: flatly
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = FALSE, fig.width = 5, fig.height = 3,
+                      warning = FALSE, message = FALSE, cache = TRUE)
+
+rm(list = ls())
 ```
-
-
 
