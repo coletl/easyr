@@ -6,8 +6,11 @@ output:
   pdf_document:
     toc: no
     toc_depth: 3
-  theme: flatly
+fontfamily: palatino
 ---
+
+
+Collaborators: 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, fig.width = 5, fig.height = 3,
