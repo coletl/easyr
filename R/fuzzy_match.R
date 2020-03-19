@@ -7,7 +7,7 @@
 #' @param b a target data.table
 #' @param acol column name in \code{a} to use for matching
 #' @param bcol column name in \code{b} to use for matching
-#' @param blocks an optional character vector of column names referring to any variables to be used for \emph{exact} blocking.
+#' @param blocks an optional character vector of column names referring to any variables to be used for \emph{exact} blocking. Ran into bugs when matching Indramayu villages within districts, so it's probably better to rely on fastLink for this.
 #' @param method method for \code{\link[stringdist]{stringdistmatrix}}
 #'
 #' @return a data.table containing any blocking columns,
@@ -55,15 +55,21 @@ fuzzy_match <-
       setkeyv(a, names(blocks))
       setkeyv(b, names(blocks))
 
+      # Construct stringdistmatrix call
+      ## data.table optimizes `:=`, so this may be better than using get()
+      ## which was buggy anyway
+      sdm_call <-
+      sprintf("stringdist::stringdistmatrix(a = %s, b = b[.BY, %s],
+                                            useNames = TRUE, method = method, ...)",
+              acol, bcol)
+
       # Blocked distance computations
       sdm <-
         a[ ,
            list(sdmats =
                list(
 
-                 stringdist::stringdistmatrix(get(acol),
-                                              b[.BY, get(bcol)],
-                                              useNames = TRUE, method = method, ...)
+                 eval(parse(text = sdm_call))
                )
            ),
            by = names(blocks)
