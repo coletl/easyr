@@ -14,11 +14,6 @@ purrr::map_at
 #' @export
 stringr::str_extract
 
-# Handling data.frames ----
-#' @importFrom tibble tribble
-#' @export
-tibble::tribble
-
 #' @importFrom skimr skim
 #' @export
 skimr::skim

@@ -11,7 +11,11 @@ Imports:
     data.table,
     stringr,
     stringdist,
-    matrixStats
+    matrixStats,
+    purrr,
+    janitor,
+    skimr,
+    broom
 Depends:
     magrittr
 Encoding: UTF-8

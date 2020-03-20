@@ -6,7 +6,6 @@
 \alias{map}
 \alias{map_at}
 \alias{str_extract}
-\alias{tribble}
 \alias{skim}
 \alias{tabyl}
 \alias{tidy}
@@ -26,7 +25,5 @@ below to see their documentation.
   \item{skimr}{\code{\link[skimr]{skim}}}
 
   \item{stringr}{\code{\link[stringr]{str_extract}}}
-
-  \item{tibble}{\code{\link[tibble]{tribble}}}
 }}
 
