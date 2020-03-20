@@ -4,14 +4,14 @@
 \alias{detect_duped}
 \title{Test for duplicates}
 \usage{
-detect_duped(..., sep = "-^-", na_dupe = TRUE)
+detect_duped(..., sep = "-^-", incomparables = FALSE)
 }
 \arguments{
 \item{...}{vectors to concatenate.}
 
 \item{sep}{a string used to when concatenating the vectors. See \code{\link[base]{interaction}}.}
 
-\item{na_dupe}{logical indicating whether NAs should count as valid duplicates. The defualt, \code{TRUE}, corresponds to R's default behavior.}
+\item{incomparables}{FALSE or a vector of incomparable---i.e., never-duplicate---values. See \code{\link[base]{duplicated}}.}
 }
 \value{
 A logical vector corresponding to values that are duplicates \emph{or are duplicated}.
@@ -26,23 +26,15 @@ Instead, \code{detect_duped()} executes the common pattern
 \code{vector \%in\% vector[duplicated(vector)]}.
 
 Providing multiple vector arguments to \code{...} concatenates the vectors element-wise
-before testing for duplicates in the new, collapsed vector.
+before testing for duplicates in the new vector.
 }
-\section{Profiling}{
-
-I think the bottleneck here is the call to \code{interaction()}.
-It might be worth benchmarking this against \code{paste()}.
-It's possible that R does some internal operations when creating factors to optimize memory usage and speed up things like duplicated().
-In that case, it's probably best to profile the entire function when testing,
-rather than just compare the runtimes for different functions.
-}
-
 \examples{
-state <- c("CA", "CA", "FL", "CA")
-cd    <- c(22, 11, 22, 22)
+state <- c("CA", "CA", "FL", "CA", "FL", "FL")
+cd    <- c(22, 11, 22, 22, NA, NA)
 
 data.frame(state, cd,
-           dup = detect_duped(state, cd))
+           dup = detect_duped(state, cd),
+           dup2 = detect_duped(state, cd, incomparables = NA))
 
 }
 \seealso{

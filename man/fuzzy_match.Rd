@@ -4,7 +4,7 @@
 \alias{fuzzy_match}
 \title{Link data.tables by fuzzy string matching}
 \usage{
-fuzzy_match(a, b, acol, bcol, blocks = NULL, method = "jw", ...)
+fuzzy_match(a, b, acol, bcol, method = "jw", ...)
 }
 \arguments{
 \item{a}{a source data.table}
@@ -14,8 +14,6 @@ fuzzy_match(a, b, acol, bcol, blocks = NULL, method = "jw", ...)
 \item{acol}{column name in \code{a} to use for matching}
 
 \item{bcol}{column name in \code{b} to use for matching}
-
-\item{blocks}{an optional character vector of column names referring to any variables to be used for \emph{exact} blocking.}
 
 \item{method}{method for \code{\link[stringdist]{stringdistmatrix}}}
 }
@@ -34,18 +32,22 @@ In cases with multiple closest matches, only the first match is reported.
 library(data.table)
 
 set.seed(575)
-DTA <- data.table(block_a1 = sample(LETTERS[1:4], 20, TRUE),
-                  block_a2 = sample(LETTERS[1:4], 20, TRUE),
+DTA <- data.table(block1 = sample(LETTERS[1:4], 20, TRUE),
+                  block2 = sample(LETTERS[1:4], 20, TRUE),
                   fruit   = sample(stringr::fruit[1:12], 20, TRUE))
 
-DTB <- data.table(block_b1 = sample(LETTERS[1:4], 20, TRUE),
-                  block_b2 = sample(LETTERS[1:4], 20, TRUE),
+DTB <- data.table(block1 = sample(LETTERS[1:4], 20, TRUE),
+                  block2 = sample(LETTERS[1:4], 20, TRUE),
                   fruit   = sample(stringr::fruit[1:12], 20, TRUE))
-
-blocks <-  c(block_a1 = "block_b1", block_a2 = "block_b2")
 
 fuzzy_match(DTA, DTB, "fruit", "fruit")
-fuzzy_match(DTA, DTB, "fruit", "fruit", blocks = blocks)
+
+setkey(DTA, block1, block2)
+setkey(DTB, block1, block2)
+
+DTA[ , fuzzy_match(.SD, b = DTB[.BY], "fruit", "fruit"),
+       by = .(block1, block2)]
+
 }
 \seealso{
 \link[stringdist]{stringdistmatrix}

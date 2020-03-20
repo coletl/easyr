@@ -7,7 +7,6 @@
 #' @param b a target data.table
 #' @param acol column name in \code{a} to use for matching
 #' @param bcol column name in \code{b} to use for matching
-#' @param blocks an optional character vector of column names referring to any variables to be used for \emph{exact} blocking. Ran into bugs when matching Indramayu villages within districts, so it's probably better to rely on fastLink for this.
 #' @param method method for \code{\link[stringdist]{stringdistmatrix}}
 #'
 #' @return a data.table containing any blocking columns,
@@ -22,105 +21,38 @@
 #' library(data.table)
 #'
 #' set.seed(575)
-#' DTA <- data.table(block_a1 = sample(LETTERS[1:4], 20, TRUE),
-#'                   block_a2 = sample(LETTERS[1:4], 20, TRUE),
+#' DTA <- data.table(block1 = sample(LETTERS[1:4], 20, TRUE),
+#'                   block2 = sample(LETTERS[1:4], 20, TRUE),
 #'                   fruit   = sample(stringr::fruit[1:12], 20, TRUE))
 #'
-#' DTB <- data.table(block_b1 = sample(LETTERS[1:4], 20, TRUE),
-#'                   block_b2 = sample(LETTERS[1:4], 20, TRUE),
+#' DTB <- data.table(block1 = sample(LETTERS[1:4], 20, TRUE),
+#'                   block2 = sample(LETTERS[1:4], 20, TRUE),
 #'                   fruit   = sample(stringr::fruit[1:12], 20, TRUE))
-#'
-#' blocks <-  c(block_a1 = "block_b1", block_a2 = "block_b2")
 #'
 #' fuzzy_match(DTA, DTB, "fruit", "fruit")
-#' fuzzy_match(DTA, DTB, "fruit", "fruit", blocks = blocks)
-
-
+#'
+#' setkey(DTA, block1, block2)
+#' setkey(DTB, block1, block2)
+#'
+#' DTA[ , fuzzy_match(.SD, b = DTB[.BY], "fruit", "fruit"),
+#'        by = .(block1, block2)]
+#'
 #' @export
 
 fuzzy_match <-
-  function(a, b, acol, bcol, blocks = NULL, method = "jw", ...) {
+  function(a, b, acol, bcol, method = "jw", ...) {
+    # Unblocked distance computations
+    sdmat <- stringdist::stringdistmatrix(a[[acol]], b[[bcol]], useNames = TRUE,
+                                          method = method, ...)
+    min_dist <- matrixStats::rowMins(sdmat)
 
-    if(length(blocks) > 0) {
-      # Names of blocks argument are the a columns on which to block
-      # The blocks object itself holds the names of the b columns on which to block
+    best_match <- character()
+    for(ii in 1:length(min_dist)) best_match[ii] <- first(colnames(sdmat)[sdmat[ii, ] == min_dist[ii]])
 
-      # If no names on blocks object, assume the blocking-column names are the same
-      # in both data sets
-      if(is.null(names(blocks))) names(blocks) <- blocks
-
-      # data.table throwing an internal error, so not adding columns by reference
-      for(ii in 1:length(blocks)) b[[names(blocks)[ii]]] <- b[[blocks[ii]]]
-
-      setkeyv(a, names(blocks))
-      setkeyv(b, names(blocks))
-
-      # Construct stringdistmatrix call
-      ## data.table optimizes `:=`, so this may be better than using get()
-      ## which was buggy anyway
-      sdm_call <-
-      sprintf("stringdist::stringdistmatrix(a = %s, b = b[.BY, %s],
-                                            useNames = TRUE, method = method, ...)",
-              acol, bcol)
-
-      # Blocked distance computations
-      sdm <-
-        a[ ,
-           list(sdmats =
-               list(
-
-                 eval(parse(text = sdm_call))
-               )
-           ),
-           by = names(blocks)
-           ]
-
-      # Clean up: remove new columns from b
-      b[ , setdiff(names(blocks), blocks) := NULL]
-
-
-      # Find the best matches in b for each block-acol combination
-      sdm[ ,
-           best_match :=
-             list(
-               lapply(sdmats,
-                      function(sdmat) {
-                        min_dist <- matrixStats::rowMins(sdmat)
-                        best_match <- character()
-
-                        for(ii in 1:length(min_dist)) best_match[ii] <- first(colnames(sdmat)[sdmat[ii, ] == min_dist[ii]])
-
-                        setNames(
-                          data.table(rownames(sdmat), best_match, min_dist),
-                          c(acol, "best_match", "min_strdist")
-                        )
-                      }
-               )
-             )
-           ]
-
-
-      sdm <- tidyr::unnest(as.data.frame(sdm), best_match)
-      setDT(sdm)
-
-    } else {
-      # Unblocked distance computations
-      sdmat <- stringdist::stringdistmatrix(a[[acol]], b[[bcol]], useNames = TRUE,
-                                            method = method, ...)
-      min_dist <- matrixStats::rowMins(sdmat)
-
-      best_match <- character()
-      for(ii in 1:length(min_dist)) best_match[ii] <- first(colnames(sdmat)[sdmat[ii, ] == min_dist[ii]])
-
-      sdm <-
-        setNames(
-          data.table(rownames(sdmat), best_match, min_dist),
-          c(acol, "best_match", "min_strdist")
-        )
-
-    }
-
+    sdm <-
+      setNames(
+        data.table(rownames(sdmat), best_match, min_dist),
+        c(acol, "best_match", "min_strdist")
+      )
     return(sdm)
-
   }
-
