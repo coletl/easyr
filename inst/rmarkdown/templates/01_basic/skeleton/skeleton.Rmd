@@ -3,31 +3,31 @@ title: "TITLE"
 author: 
   - "Cole Tanigawa-Lau"
 date: ""
-
 output:
   html_document:
     df_print: paged
     toc: yes
     toc_depth: 3
     toc_float: yes
-  theme: flatly
+  theme: paper
 editor_options:
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.width = 10, fig.height = 10)
+knitr::opts_chunk$set(echo = TRUE, fig.width = 7, fig.height = 5)
 knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 ```
 
-```{r about, echo=FALSE}
+```{r about, echo=FALSE, results = "asis"}
 cat(
-  paste("Updated:", 
-        format(Sys.time(), "%b %d, %Y at %H:%M:%S")),
-  paste("Working directory:", getwd()),
+  sprintf("Updated: %s.", 
+          format(Sys.time(), "%b %d, %Y at %H:%M:%S", usetz = TRUE)),
+  sprintf("Working directory: `%s`.", getwd()),
   sep = "\n\n"
 )
 ```
+
 
 Reads:
 

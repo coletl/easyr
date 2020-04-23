@@ -38,8 +38,26 @@ na_zero <- function(x) {
 #' @return For \code{null_na}, \code{NULL} values replaced with \code{NA}.
 #' @export
 null_na <- function(x, unlist = FALSE, ...) {
-  x[sapply(x, is.null)] <- NA
+  x[vapply(x, is.null, FUN.VALUE = logical(1))] <- NA
   if(unlist) x <- unlist(x, ...)
+
+  return(x)
+  }
+
+#' @rdname na_switch
+#' @return For \code{empty_na}, empty strings (\code{""}) replaced with \code{NA}.
+#' @export
+empty_na <- function(x, unlist = FALSE, ...) {
+  x[x == ""] <- NA
+
+  return(x)
+}
+
+#' @rdname na_switch
+#' @return For \code{to_na}, arbitrary values replaced with \code{NA}.
+#' @export
+to_na <- function(x, values) {
+  x[x %in% values] <- NA
 
   return(x)
   }
