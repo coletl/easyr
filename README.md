@@ -1,5 +1,4 @@
-# Make life a little easier
-Sundry functions collected from my projects and gists over the years. This package also brings in select functions from some larger packages that I tend not to load entirely.
+Deprecated for [coler](https://github.com/coletl/coler). I'll miss the name, but it wasn't obviously a personal package.
 
 ### To install
 ```R
